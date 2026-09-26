@@ -1,0 +1,65 @@
+import sqlite3
+import pandas as pd
+
+# --------------------------------------------------
+# Connect to SQLite database
+# --------------------------------------------------
+
+connection = sqlite3.connect("employee_productivity.db")
+
+# --------------------------------------------------
+# SQL Query: Training vs Performance Analysis
+# --------------------------------------------------
+
+query = """
+SELECT
+    CASE
+        WHEN Training_Hours < 25 THEN 'Low Training'
+        WHEN Training_Hours < 50 THEN 'Medium Training'
+        WHEN Training_Hours < 75 THEN 'High Training'
+        ELSE 'Very High Training'
+    END AS Training_Level,
+
+    COUNT(*) AS Employee_Count,
+
+    ROUND(AVG(Training_Hours), 2) AS Avg_Training_Hours,
+
+    ROUND(AVG(Performance_Score), 2) AS Avg_Performance_Score
+
+FROM employee_productivity
+
+GROUP BY Training_Level
+
+ORDER BY Avg_Training_Hours;
+"""
+
+# --------------------------------------------------
+# Execute SQL query
+# --------------------------------------------------
+
+df = pd.read_sql_query(query, connection)
+
+# --------------------------------------------------
+# Close database connection
+# --------------------------------------------------
+
+connection.close()
+
+# --------------------------------------------------
+# Save analysis result as CSV
+# --------------------------------------------------
+
+df.to_csv(
+    "results/training_analysis.csv",
+    index=False
+)
+
+# --------------------------------------------------
+# Display results
+# --------------------------------------------------
+
+print("Training analysis completed!")
+print("=" * 70)
+print(df)
+
+print("\nSaved to: results/training_analysis.csv")
