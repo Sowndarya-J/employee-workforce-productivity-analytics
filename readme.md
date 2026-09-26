@@ -265,14 +265,6 @@ The dashboard includes interactive slicers and multiple workforce, productivity,
 * Data visualization
 * Git and GitHub project management
 
-## Future Improvements
-
-* Add more advanced DAX measures
-* Build additional workforce KPIs
-* Add time-based employee analysis
-* Develop predictive resignation analysis
-* Add automated data refresh workflows
-* Expand Power BI dashboard interactions
 
 ## Author
 
